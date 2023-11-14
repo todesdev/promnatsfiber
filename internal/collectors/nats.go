@@ -84,12 +84,14 @@ func NewNatsMetricsCollector(reg *prometheus.Registry, serviceName string) Async
 		messagePublishingDurationMetric,
 	)
 
-	return &NatsMetricsCollector{
+	natsMetricsCollector = &NatsMetricsCollector{
 		processedMessageCountMetric:     processedMessageCountMetric,
 		messageProcessingDurationMetric: messageProcessingDurationMetric,
 		publishedMessageCountMetric:     publishedMessageCountMetric,
 		messagePublishingDurationMetric: messagePublishingDurationMetric,
 	}
+
+	return natsMetricsCollector
 }
 
 func GetNatsMetricsCollector() (AsyncMessageBrokerMetricsCollector, error) {
