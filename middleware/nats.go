@@ -2,14 +2,13 @@ package middleware
 
 import (
 	"github.com/nats-io/nats.go"
-	"github.com/todesdev/promnatsfiber"
 	"github.com/todesdev/promnatsfiber/internal/collectors"
 	"time"
 )
 
 func WrapProcessMessage(funcToWrap func(*nats.Msg)) func(*nats.Msg) {
 	return func(msg *nats.Msg) {
-		mc, err := promnatsfiber.GetNatsMetricsCollector()
+		mc, err := collectors.GetNatsMetricsCollector()
 		if err != nil {
 			panic(err)
 		}
@@ -25,7 +24,7 @@ func WrapProcessMessage(funcToWrap func(*nats.Msg)) func(*nats.Msg) {
 
 func WrapProcessJetStreamMessage(funcToWrap func(*nats.Msg)) func(*nats.Msg) {
 	return func(msg *nats.Msg) {
-		mc, err := promnatsfiber.GetNatsMetricsCollector()
+		mc, err := collectors.GetNatsMetricsCollector()
 		if err != nil {
 			panic(err)
 		}
@@ -41,7 +40,7 @@ func WrapProcessJetStreamMessage(funcToWrap func(*nats.Msg)) func(*nats.Msg) {
 
 func WrapPublishMessage(nc *nats.Conn) func(string, []byte) error {
 	return func(subject string, data []byte) error {
-		mc, err := promnatsfiber.GetNatsMetricsCollector()
+		mc, err := collectors.GetNatsMetricsCollector()
 		if err != nil {
 			panic(err)
 		}
@@ -62,7 +61,7 @@ func WrapPublishMessage(nc *nats.Conn) func(string, []byte) error {
 
 func WrapPublishJetStreamMessage(js nats.JetStreamContext) func(string, []byte) error {
 	return func(subject string, data []byte) error {
-		mc, err := promnatsfiber.GetNatsMetricsCollector()
+		mc, err := collectors.GetNatsMetricsCollector()
 		if err != nil {
 			panic(err)
 		}

@@ -1,11 +1,9 @@
 package promnatsfiber
 
 import (
-	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/todesdev/promnatsfiber/internal/collectors"
 	"github.com/todesdev/promnatsfiber/internal/registry"
 	"github.com/todesdev/promnatsfiber/middleware"
 )
@@ -15,8 +13,6 @@ type Config struct {
 	ServiceName     string
 	MetricsEndpoint string
 }
-
-var natsMetricsCollector collectors.AsyncMessageBrokerMetricsCollector
 
 func New(config *Config) {
 
@@ -28,13 +24,4 @@ func New(config *Config) {
 
 	// Register Fiber middleware
 	config.FiberApp.Use(middleware.FiberPrometheusMiddleware(reg.HttpMetricsCollector))
-
-	natsMetricsCollector = reg.NatsMetricsCollector
-}
-
-func GetNatsMetricsCollector() (collectors.AsyncMessageBrokerMetricsCollector, error) {
-	if natsMetricsCollector == nil {
-		return nil, errors.New("natsMetricsCollector is nil")
-	}
-	return natsMetricsCollector, nil
 }

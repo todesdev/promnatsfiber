@@ -1,6 +1,7 @@
 package collectors
 
 import (
+	"errors"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -30,6 +31,8 @@ const (
 	NatsSimpleMessageType    = "simple"
 	NatsJetStreamMessageType = "jetstream"
 )
+
+var natsMetricsCollector AsyncMessageBrokerMetricsCollector
 
 type NatsMetricsCollector struct {
 	processedMessageCountMetric     *prometheus.CounterVec
@@ -87,6 +90,13 @@ func NewNatsMetricsCollector(reg *prometheus.Registry, serviceName string) Async
 		publishedMessageCountMetric:     publishedMessageCountMetric,
 		messagePublishingDurationMetric: messagePublishingDurationMetric,
 	}
+}
+
+func GetNatsMetricsCollector() (AsyncMessageBrokerMetricsCollector, error) {
+	if natsMetricsCollector == nil {
+		return nil, errors.New("natsMetricsCollector is nil")
+	}
+	return natsMetricsCollector, nil
 }
 
 func (m *NatsMetricsCollector) IncProcessedMessageCount(subject, messageType string) {
