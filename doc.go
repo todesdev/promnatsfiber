@@ -1,56 +1,45 @@
-// Package promnatsfiber provides a suite of observability tools for applications
-// using the Fiber framework, with support for Prometheus metrics and NATS messaging system.
-// It enables easy collection and exposition of critical operational metrics such as CPU usage,
-// memory usage, request counts, request durations, and more.
+// Package promnatsfiber provides a convenient way to instrument Go applications
+// using the Fiber web framework and NATS messaging system with Prometheus metrics.
 //
-// The package offers middleware for the Fiber framework that automatically collects
-// and reports these metrics to a Prometheus server. Additionally, it provides tools
-// to monitor NATS messaging system interactions, capturing metrics related to message
-// processing.
+// This package offers middleware for the Fiber framework to collect HTTP metrics
+// and a wrapper for NATS message handlers to collect metrics on message processing.
+// Additionally, it includes a system metrics collector leveraging gopsutil to
+// gather process-specific metrics such as CPU and memory usage, garbage collection
+// stats, and Go routine counts.
 //
-// To use this package, create a new instance of MetricsCollector using NewMetricsCollector,
-// which collects a predefined set of system and application metrics. You can then register
-// this collector with your Fiber application using the provided middleware functions.
-// The metrics are exposed via a configurable endpoint (by default '/metrics') for Prometheus
-// to scrape.
+// The primary components of this package are:
+//   - PrometheusNatsFiber: A struct that initializes and contains the metrics registry.
+//   - MetricsRegistry: A struct holding different types of metrics collectors,
+//     including HTTP, NATS, and system metrics collectors.
+//   - HttpMetricsCollector: An interface and its implementation for collecting
+//     HTTP-related metrics from Fiber requests.
+//   - AsyncMessageBrokerMetricsCollector: An interface for collecting metrics
+//     on NATS message processing, publishing including JetStream compatability.
+//   - SystemMetricsCollector: An interface for collecting system-level metrics.
 //
-// The MetricsCollector struct provides methods to manually collect metrics and the middleware
-// automatically collects basic request metrics. The package also exposes Go runtime metrics
-// such as garbage collection statistics and goroutine counts.
-//
-// For detailed usage and configuration, refer to the README.md and the examples provided in the
-// 'examples' directory of this package.
+// Usage:
+// To use this package, create a new instance of PrometheusNatsFiber with the
+// necessary configuration, including the Fiber app instance, service name, and
+// metrics endpoint. This initialization will automatically set up the /metrics
+// endpoint for Prometheus scraping and register the necessary middleware for
+// collecting HTTP metrics in Fiber. For NATS message handling, use the
+// WrapWithProm function to wrap your NATS message handlers.
 //
 // Example:
 //
-//	package main
-//
-//	import (
-//	    "github.com/gofiber/fiber/v2"
-//	    "github.com/todesdev/promnatsfiber"
-//	)
-//
 //	func main() {
 //	    app := fiber.New()
-//
-//	    // Create a new MetricsCollector instance
-//	    mc := promnatsfiber.NewMetricsCollector()
-//
-//	    // Setup your Fiber app routes as needed
-//	    app.Get("/", func(c *fiber.Ctx) error {
-//	        return c.SendString("Hello, World!")
+//	    natsConnection := connectToNats()
+//	    promnatsfiber.New(&promnatsfiber.Config{
+//	        FiberApp:        app,
+//	        ServiceName:     "my-service",
+//	        MetricsEndpoint: "/metrics",
 //	    })
-//
-//	    // Register the metrics middleware
-//	    app.Use(mc.Middleware())
-//
-//	    // Start your Fiber application with metrics collection enabled
-//	    app.Listen(":8080")
+//	    go subscribeToMessages(natsConnection)
+//	    log.Fatal(app.Listen(":3000"))
 //	}
 //
-// This package assumes that a Prometheus server is configured to scrape the metrics
-// from the '/metrics' endpoint exposed by your Fiber application.
-//
-// For further details on configuring Prometheus and visualizing metrics with tools
-// like Grafana, please refer to the Prometheus and Grafana documentation.
+// This package is designed to be easy to integrate into existing applications
+// using Fiber and NATS, providing out-of-the-box metrics collection for
+// monitoring with Prometheus.
 package promnatsfiber
