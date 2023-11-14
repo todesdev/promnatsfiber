@@ -55,7 +55,7 @@ func NewNatsMetricsCollector(reg *prometheus.Registry, serviceName string) Async
 		prometheus.HistogramOpts{
 			Name:    prometheus.BuildFQName(serviceName, NatsSubsystem, NatsMessageProcessingDuration),
 			Help:    NatsMessageProcessingDurationHelp,
-			Buckets: HistogramBuckets,
+			Buckets: prometheus.DefBuckets,
 		},
 		[]string{NatsSubjectLabel, NatsTypeLabel},
 	)
@@ -72,7 +72,7 @@ func NewNatsMetricsCollector(reg *prometheus.Registry, serviceName string) Async
 		prometheus.HistogramOpts{
 			Name:    prometheus.BuildFQName(serviceName, NatsSubsystem, NatsPublishingMessageDuration),
 			Help:    NatsPublishingMessageDurationHelp,
-			Buckets: HistogramBuckets,
+			Buckets: prometheus.DefBuckets,
 		},
 		[]string{NatsSubjectLabel},
 	)

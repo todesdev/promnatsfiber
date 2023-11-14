@@ -45,7 +45,7 @@ func NewFiberMetricsCollector(reg *prometheus.Registry, serviceName, metricsUrl 
 		prometheus.HistogramOpts{
 			Name:    prometheus.BuildFQName(serviceName, HttpSubsystem, HttpRequestDurationSeconds),
 			Help:    HttpRequestsDurationSecondsHelp,
-			Buckets: HistogramBuckets,
+			Buckets: prometheus.DefBuckets,
 		},
 		[]string{HttpStatusCodeLabel, HttpMethodLabel, HttpPathLabel},
 	)
