@@ -12,7 +12,7 @@ func FiberPrometheusMiddleware(mc collectors.HttpMetricsCollector) fiber.Handler
 		startTime := time.Now()
 		method := c.Route().Method
 
-		path := c.Route().Path
+		path := c.OriginalURL()
 
 		if path == mc.GetMetricsUrl() {
 			return c.Next()
