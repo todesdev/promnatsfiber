@@ -15,14 +15,14 @@ type AsyncMessageBrokerMetricsCollector interface {
 const (
 	NatsSubsystem = "nats"
 
-	NatsProcessedMessagesTotal        = "nats_processed_messages_total"
+	NatsProcessedMessagesTotal        = "processed_messages_total"
 	NatsMessagesTotalHelp             = "Total number of NATS messages processed."
-	NatsMessageProcessingDuration     = "nats_message_processing_duration_seconds"
+	NatsMessageProcessingDuration     = "message_processing_duration_seconds"
 	NatsMessageProcessingDurationHelp = "Duration of NATS message processing."
 
-	NatsPublishedMessagesTotal        = "nats_published_messages_total"
+	NatsPublishedMessagesTotal        = "published_messages_total"
 	NatsPublishedMessagesHelp         = "Total number of NATS messages published."
-	NatsPublishingMessageDuration     = "nats_publishing_message_duration_seconds"
+	NatsPublishingMessageDuration     = "publishing_message_duration_seconds"
 	NatsPublishingMessageDurationHelp = "Duration of NATS message publishing."
 
 	NatsSubjectLabel = "subject"

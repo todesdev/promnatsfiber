@@ -14,11 +14,11 @@ type HttpMetricsCollector interface {
 
 const (
 	HttpSubsystem                   = "http"
-	HttpRequestsTotal               = "http_requests_total"
+	HttpRequestsTotal               = "requests_total"
 	HttpRequestsHelp                = "Total number of HTTP requests."
-	HttpRequestDurationSeconds      = "http_request_duration_seconds"
+	HttpRequestDurationSeconds      = "request_duration_seconds"
 	HttpRequestsDurationSecondsHelp = "Duration of HTTP requests."
-	HttpRequestsInProgressTotal     = "http_requests_in_progress_total"
+	HttpRequestsInProgressTotal     = "requests_in_progress_total"
 	HttpRequestsInProgressHelp      = "Number of HTTP requests in progress."
 	HttpStatusCodeLabel             = "status_code"
 	HttpMethodLabel                 = "method"

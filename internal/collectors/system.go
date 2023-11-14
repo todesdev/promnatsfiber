@@ -15,15 +15,15 @@ type SystemMetricsCollector interface {
 
 const (
 	SystemSubsystem            = "system"
-	SystemCPUUsagePercent      = "system_cpu_usage_percent"
+	SystemCPUUsagePercent      = "cpu_usage_percent"
 	SystemCpuUsagePercentHelp  = "CPU usage as a percentage."
-	SystemMemoryUsageBytes     = "system_memory_usage_bytes"
+	SystemMemoryUsageBytes     = "memory_usage_bytes"
 	SystemMemoryUsageBytesHelp = "Memory usage in bytes."
-	SystemMemoryTotalBytes     = "system_memory_total_bytes"
+	SystemMemoryTotalBytes     = "memory_total_bytes"
 	SystemMemoryTotalBytesHelp = "Total memory in bytes."
-	SystemGCStats              = "system_gc_stats"
+	SystemGCStats              = "gc_stats"
 	SystemGCStatsHelp          = "GC stats."
-	SystemGoRoutineCount       = "system_go_routine_count"
+	SystemGoRoutineCount       = "go_routine_count"
 	SystemGoRoutineCountHelp   = "Number of go routines."
 )
 

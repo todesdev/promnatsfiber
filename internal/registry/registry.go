@@ -15,10 +15,12 @@ type MetricsRegistry struct {
 func NewPrometheusRegistry(serviceName, metricsUrl string) *MetricsRegistry {
 	registry := prometheus.NewRegistry()
 
+	formattedServiceName := toSnakeCase(serviceName)
+
 	return &MetricsRegistry{
 		Registry:               registry,
-		HttpMetricsCollector:   collectors.NewFiberMetricsCollector(registry, serviceName, metricsUrl),
-		NatsMetricsCollector:   collectors.NewNatsMetricsCollector(registry, serviceName),
-		SystemMetricsCollector: collectors.NewODSystemMetricsCollector(registry, serviceName),
+		HttpMetricsCollector:   collectors.NewFiberMetricsCollector(registry, formattedServiceName, metricsUrl),
+		NatsMetricsCollector:   collectors.NewNatsMetricsCollector(registry, formattedServiceName),
+		SystemMetricsCollector: collectors.NewODSystemMetricsCollector(registry, formattedServiceName),
 	}
 }
